@@ -69,7 +69,8 @@ def getData(userid,cnt=1000,starttime='2017-01-01 00:00:00',endtime='2099-01-01 
     et = datetime.datetime.now()
     if starttime!='2017-01-01 00:00:00' or endtime!='2099-01-01 00:00:00':
         isUseDate = True
-
+        st = datetime.datetime.strptime(starttime,'%y-%m-%d h:m:s')
+        et = datetime.datetime.strptime(endtime,'%y-%m-%d h:m:s')
 
     dataFile.write('id,tableid,roomid,starttime,endtime,pantype,userid1,username1,score1,userid2,username2,score2,userid3,username3,score3,userid4,username4,score4 \n')
     for d in datas:
@@ -179,7 +180,7 @@ def getMultiDatas():
 
 
 #fe:12939|Philip：12881|12569：zzf
-getData(12939)
+getData(12906)
 # getMultiDatas()
 
 
