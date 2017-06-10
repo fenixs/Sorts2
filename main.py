@@ -179,8 +179,8 @@ def getMultiDatas():
             print('user %s data complete.(%s/%s)'%(curId,i,idCnt))
 
 
-#fe:12939|Philip：12881|12569：zzf
-getData(12906)
+#fe:12939|Philip：12881|12569：zzf|atubo:12906|天外:12883|yyk:12792|西湖:12900|lsj:12824|老庄:12621
+getData(12621)
 # getMultiDatas()
 
 
