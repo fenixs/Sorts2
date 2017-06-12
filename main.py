@@ -167,7 +167,7 @@ def getMultiDatas():
     ids = []
     userFile = open(filePath,'r')
     for line in userFile:
-        ids.append(line)
+        ids.append((line.split(','))[0])
     userFile.close()
     idCnt = len(ids)
     i=0
@@ -180,8 +180,8 @@ def getMultiDatas():
 
 
 #fe:12939|Philip：12881|12569：zzf|atubo:12906|天外:12883|yyk:12792|西湖:12900|lsj:12824|老庄:12621
-getData(12621)
-# getMultiDatas()
+# getData(12939)
+getMultiDatas()
 
 
 
