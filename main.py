@@ -211,7 +211,7 @@ def getData2(userids,starttime='2017/01/01 00:00:00',endtime='2099/01/01 00:00:0
 
     filePath = os.path.dirname(os.path.realpath(__file__))
     filePath = os.path.join(filePath,os.path.pardir)        # 上级目录
-    filePath = filePath + '\dataresults\data(' + st.strftime('%Y-%m-%d%H%M') + "TO" + et.strftime('%Y-%m-%d%H%M') + ').txt'  # 具体文件
+    filePath = filePath + '\dataresults\data(' + st.strftime('%Y%m%d%H%M') + "-" + et.strftime('%Y%m%d%H%M') + ').txt'  # 具体文件
     dataFile = open(filePath,'w')
     i=0
     allScores = {}
@@ -305,7 +305,7 @@ def getData2(userids,starttime='2017/01/01 00:00:00',endtime='2099/01/01 00:00:0
                        ,str(maxScore),str(minScore),str(allRanks[userid]['1']),str(allRanks[userid]['2']),str(allRanks[userid]['3']),str(allRanks[userid]['4']),str(ranks[totalScore])))
     dataFile.close()
     filePath2 = os.path.dirname(filePath)
-    filePath2 = filePath2 + '\data(' + st.strftime('%Y-%m-%d%H%M') + "TO" + et.strftime('%Y-%m-%d%H%M') + ').csv'
+    filePath2 = filePath2 + '\data(' + st.strftime('%Y%m%d%H%M') + "-" + et.strftime('%Y%m%d%H%M') + ').csv'
     dataFile2 = open(filePath2,'w')
     dataFile2.write("id,name,cnt,quan,totalscore,max,min,rank1,rank2,rank2,rank4,scorerank\n")
     for userid in userids:
