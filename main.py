@@ -211,7 +211,7 @@ def getData2(userids,starttime='2017/01/01 00:00:00',endtime='2099/01/01 00:00:0
 
     filePath = os.path.dirname(os.path.realpath(__file__))
     filePath = os.path.join(filePath,os.path.pardir)        # 上级目录
-    filePath = filePath + '\dataresults\data(' + st.strftime('%Y-%m-%d%H%M%S') + "TO" + et.strftime('%Y-%m-%d%H%M%S') + ').txt'  # 具体文件
+    filePath = filePath + '\dataresults\data(' + st.strftime('%Y-%m-%d%H%M') + "TO" + et.strftime('%Y-%m-%d%H%M') + ').txt'  # 具体文件
     dataFile = open(filePath,'w')
     i=0
     allScores = {}
@@ -304,6 +304,21 @@ def getData2(userids,starttime='2017/01/01 00:00:00',endtime='2099/01/01 00:00:0
         dataFile.write("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (userid,idnames[userid].encode('utf-8'),str(allCnt[userid]),str(allQuan[userid]),str(totalScore) \
                        ,str(maxScore),str(minScore),str(allRanks[userid]['1']),str(allRanks[userid]['2']),str(allRanks[userid]['3']),str(allRanks[userid]['4']),str(ranks[totalScore])))
     dataFile.close()
+    filePath2 = os.path.dirname(filePath)
+    filePath2 = filePath2 + '\data(' + st.strftime('%Y-%m-%d%H%M') + "TO" + et.strftime('%Y-%m-%d%H%M') + ').csv'
+    dataFile2 = open(filePath2,'w')
+    dataFile2.write("id,name,cnt,quan,totalscore,max,min,rank1,rank2,rank2,rank4,scorerank\n")
+    for userid in userids:
+        mydatas = allScores[userid]
+        totalScore = sum(mydatas)
+        maxScore = 0
+        minScore = 0
+        if(len(mydatas)>0):
+            maxScore = max(mydatas)
+            minScore = min(mydatas)
+        dataFile2.write("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (userid,idnames[userid].encode('utf-8'),str(allCnt[userid]),str(allQuan[userid]),str(totalScore) \
+                       ,str(maxScore),str(minScore),str(allRanks[userid]['1']),str(allRanks[userid]['2']),str(allRanks[userid]['3']),str(allRanks[userid]['4']),str(ranks[totalScore])))
+    dataFile2.close()
 
 
 def getMultiDatas():
@@ -341,7 +356,7 @@ def getWeekDatas(st,et,cnt=150):
 # getData(13147)
 #  getMultiDatas()
 
-getWeekDatas('2017/6/15 00:00:00','2017/6/17 00:00:00',30)      # 最后一个参数为取多少条记录，一般按天*20即可
+# getWeekDatas('2017/6/12 00:00:00','2017/6/19 00:00:00',150)      # 最后一个参数为取多少条记录，一般按天*20即可
 
 
 
