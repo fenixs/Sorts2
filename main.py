@@ -347,13 +347,14 @@ def getWeekDatas(st,et,cnt=150):
     userFile = open(filePath,'r')
     for line in userFile:
         idname = (line.split(','))
-        ids.append(idname[0])
+        if(str.isdigit(idname[0])):
+            ids.append(idname[0])
     userFile.close()
     getData2(ids,st,et,cnt)
 
 
 # fe:12939|Philip：12881|12569：zzf|atubo:12906|天外:12883|yyk:12792|西湖:12900|lsj:12824|老庄:12621|灯:12905|13089:水
-# getData(13147)
+getData(12939)
 #  getMultiDatas()
 
 # getWeekDatas('2017/6/12 00:00:00','2017/6/19 00:00:00',150)      # 最后一个参数为取多少条记录，一般按天*20即可
