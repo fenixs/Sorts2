@@ -44,7 +44,15 @@ def getData(userid,pancnt=1000,starttime='2017/01/01 00:00:00',endtime='2099/01/
     '''用户名,数据条数'''
     username=''
     userid2 = str(userid).encode("utf-8")
+    isUseDate = False
+    st = datetime.datetime.now()
+    et = datetime.datetime.now()
+    if starttime!='2017/01/01 00:00:00' or endtime!='2099/01/01 00:00:00':
+        isUseDate = True
+        st = datetime.datetime.strptime(starttime,'%Y/%m/%d %H:%M:%S')
+        et = datetime.datetime.strptime(endtime,'%Y/%m/%d %H:%M:%S')
     url = 'http://mj.smzy.cc:9368/queryPlayRecord.aspx?user=' + str(userid) + '&startindex=0&number=' + str(pancnt)
+
     response = urllib.urlopen(url)      # 获取到response
     html = response.read()              # 获取到response的内容文本
     target = json.loads(html)           # 获取到内容文本的json对象
@@ -63,7 +71,11 @@ def getData(userid,pancnt=1000,starttime='2017/01/01 00:00:00',endtime='2099/01/
     circle=0    # 总盘数
     filePath = os.path.dirname(os.path.realpath(__file__))  # 当前目录
     filePath = os.path.join(filePath,os.path.pardir)        # 上级目录
-    filePath = filePath + '\dataresults\data-' + username + '.txt'  # 具体文件
+    # filePath = filePath + '\dataresults\data-' + username + '.txt'  # 具体文件
+    if(isUseDate):
+        filePath = filePath + '\dataresults\data-' + username + '(' + st.strftime('%Y%m%d%H%M') + "-" + et.strftime('%Y%m%d%H%M') + ').txt'  # 具体文件
+    else:
+        filePath = filePath + '\dataresults\data-' + username + '.txt'  # 具体文件
     dataFile = open(filePath,'w')
     scores = {}  # 所有人的成绩
     idname = {}  # id和name
@@ -73,13 +85,7 @@ def getData(userid,pancnt=1000,starttime='2017/01/01 00:00:00',endtime='2099/01/
     mySumScores = [] # 我的累计成绩
     myScoresVsOther = {}   # 面对其他人时候的我的成绩
     myRanks = {'1':0,'2':0,'3':0,'4':0}
-    isUseDate = False
-    st = datetime.datetime.now()
-    et = datetime.datetime.now()
-    if starttime!='2017/01/01 00:00:00' or endtime!='2099/01/01 00:00:00':
-        isUseDate = True
-        st = datetime.datetime.strptime(starttime,'%y-%m-%d h:m:s')
-        et = datetime.datetime.strptime(endtime,'%y-%m-%d h:m:s')
+
 
     dataFile.write('id,tableid,roomid,starttime,endtime,pantype,userid1,username1,score1,userid2,username2,score2,userid3,username3,score3,userid4,username4,score4 \n')
     for d in datas:
@@ -365,10 +371,10 @@ def getWeekDatas(st,et,cnt=150):
 
 
 # fe:12939|Philip：12881|12569：zzf|atubo:12906|天外:12883|yyk:12792|西湖:12900|lsj:12824|老庄:12621|灯:12905|13089:水
-getData(12906)
+getData(12939,100,'2017/05/29 00:00:00','2017/06/15 00:00:00')
 #  getMultiDatas()
 
-# getWeekDatas('2017/6/12 00:00:00','2017/6/19 00:00:00',150)      # 最后一个参数为取多少条记录，一般按天*20即可
+# getWeekDatas('2017/6/19 00:00:00','2017/6/26 00:00:00',10)      # 最后一个参数为取多少条记录，一般按天*20即可
 
 
 
