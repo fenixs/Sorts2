@@ -68,6 +68,7 @@ def getData(userid,pancnt=1000,starttime='2017/01/01 00:00:00',endtime='2099/01/
     scores = {}  # 所有人的成绩
     idname = {}  # id和name
     times = {} # 对战次数
+    quans = {} # 对战圈数
     myScores = [] # 我的成绩
     mySumScores = [] # 我的累计成绩
     myScoresVsOther = {}   # 面对其他人时候的我的成绩
@@ -113,44 +114,54 @@ def getData(userid,pancnt=1000,starttime='2017/01/01 00:00:00',endtime='2099/01/
         dataFile.write((d['id']).encode("utf-8") + "," + (d['tableid']).encode("utf-8") + "," + (d['roomid']).encode("utf-8") + "," + (d['starttime']).encode("utf-8") + "," + (d['endtime']).encode("utf-8") + "," + (d['pantype']).encode("utf-8") + ","  \
                         + user1 + "," + username1 + "," + str(gc1) + "," + user2 + "," + username2 + "," + str(gc2) + "," \
                         + user3 + "," + username3 + "," + str(gc3) + "," + user4 + "," + username4 + "," + str(gc4) + "\n")
+        cnt+=1
+        quan = int(d['pantype'])
+        circle += quan
         if(scores.has_key(user1)):  # 保存各用户的成绩和次数
             scores[user1] += gc1
             times[user1] +=1
             myScoresVsOther[user1] += myScore
+            quans[user1] += quan
         else:
             scores[user1] = gc1
             times[user1]  =1
             myScoresVsOther[user1] = myScore
+            quans[user1] = quan
         if(scores.has_key(user2)):
             scores[user2] += gc2
             times[user2] +=1
             myScoresVsOther[user2] += myScore
+            quans[user2] += quan
         else:
             scores[user2] = gc2
             times[user2]  =1
             myScoresVsOther[user2] = myScore
+            quans[user2] = quan
         if(scores.has_key(user3)):
             scores[user3] += gc3
             times[user3] +=1
             myScoresVsOther[user3] += myScore
+            quans[user3] += quan
         else:
             scores[user3] = gc3
             times[user3]  =1
             myScoresVsOther[user3] = myScore
+            quans[user3] = quan
         if(scores.has_key(user4)):
             scores[user4] += gc4
             times[user4] +=1
             myScoresVsOther[user4] += myScore
+            quans[user4] += quan
         else:
             scores[user4] = gc4
             times[user4]  =1
             myScoresVsOther[user4] = myScore
+            quans[user4] = quan
         idname.setdefault(user1,username1)
         idname.setdefault(user2,username2)
         idname.setdefault(user3,username3)
         idname.setdefault(user4,username4)
-        cnt+=1
-        circle += int(d['pantype'])
+
 
     myScores.reverse()
     # 计算累计成绩
@@ -160,9 +171,9 @@ def getData(userid,pancnt=1000,starttime='2017/01/01 00:00:00',endtime='2099/01/
         mySumScores.append(lastAllScore)
 
 
-    dataFile.write('%30s%7s:%s%s%s\n'%(' ',' ',myAlign('数据',10),myAlign('次数',10),myAlign('我的数据',10)))
+    dataFile.write('%30s%7s:%s%s%s%s\n'%(' ',' ',myAlign('数据',10),myAlign('次数',10),myAlign('圈数',10),myAlign('我的数据',10)))
     for key in scores:
-        dataFile.write('%s(%s):%10s%10s%10s\n'%(myAlign(idname[key],30),key,str(scores[key]),str(times[key]),str(myScoresVsOther[key])))
+        dataFile.write('%s(%s):%10s%10s%10s%10s\n'%(myAlign(idname[key],30),key,str(scores[key]),str(times[key]),str(quans[key]),str(myScoresVsOther[key])))
 
     dataFile.write("\nmy scores:" + ','.join(str(s) for s in myScores) + "\n")
     dataFile.write("\nmy sum scores:" + ','.join(str(s) for s in mySumScores) + "\n")
@@ -174,7 +185,7 @@ def getData(userid,pancnt=1000,starttime='2017/01/01 00:00:00',endtime='2099/01/
 
 def getData2(userids,starttime='2017/01/01 00:00:00',endtime='2099/01/01 00:00:00',pancnt=150):
     '''获取多人周数据'''
-    username=''
+    # username=''
     alldatas = {}
 
     st = datetime.datetime.now()
@@ -353,7 +364,7 @@ def getWeekDatas(st,et,cnt=150):
 
 
 # fe:12939|Philip：12881|12569：zzf|atubo:12906|天外:12883|yyk:12792|西湖:12900|lsj:12824|老庄:12621|灯:12905|13089:水
-# getData(13147)
+getData(12906)
 #  getMultiDatas()
 
 # getWeekDatas('2017/6/12 00:00:00','2017/6/19 00:00:00',150)      # 最后一个参数为取多少条记录，一般按天*20即可
