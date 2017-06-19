@@ -358,7 +358,8 @@ def getWeekDatas(st,et,cnt=150):
     userFile = open(filePath,'r')
     for line in userFile:
         idname = (line.split(','))
-        ids.append(idname[0])
+        if(str.isdigit(idname[0])):
+            ids.append(idname[0])
     userFile.close()
     getData2(ids,st,et,cnt)
 
