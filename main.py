@@ -326,9 +326,17 @@ def getData2(userids,starttime='2017/01/01 00:00:00',endtime='2099/01/01 00:00:0
     filePath2 = filePath2 + '\data(' + st.strftime('%Y%m%d%H%M') + "-" + et.strftime('%Y%m%d%H%M') + ').csv'
     dataFile2 = open(filePath2,'w')
     dataFile2.write("id,name,cnt,quan,totalscore,max,min,rank1,rank2,rank3,rank4,scorerank\n")
+    useridScores = {}
     for userid in userids:
         mydatas = allScores[userid]
         totalScore = sum(mydatas)
+        useridScores[userid] = totalScore
+    uss = sorted(useridScores.iteritems(),key = lambda e:e[1],reverse=True)
+
+    for us in uss:
+        userid = us[0]
+        mydatas = allScores[userid]
+        totalScore = us[1]
         maxScore = 0
         minScore = 0
         if(len(mydatas)>0):
@@ -336,6 +344,16 @@ def getData2(userids,starttime='2017/01/01 00:00:00',endtime='2099/01/01 00:00:0
             minScore = min(mydatas)
         dataFile2.write("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (userid,idnames[userid].encode('utf-8'),str(allCnt[userid]),str(allQuan[userid]),str(totalScore) \
                        ,str(maxScore),str(minScore),str(allRanks[userid]['1']),str(allRanks[userid]['2']),str(allRanks[userid]['3']),str(allRanks[userid]['4']),str(ranks[totalScore])))
+    # for userid in userids:
+    #     mydatas = allScores[userid]
+    #     totalScore = sum(mydatas)
+    #     maxScore = 0
+    #     minScore = 0
+    #     if(len(mydatas)>0):
+    #         maxScore = max(mydatas)
+    #         minScore = min(mydatas)
+    #     dataFile2.write("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (userid,idnames[userid].encode('utf-8'),str(allCnt[userid]),str(allQuan[userid]),str(totalScore) \
+    #                    ,str(maxScore),str(minScore),str(allRanks[userid]['1']),str(allRanks[userid]['2']),str(allRanks[userid]['3']),str(allRanks[userid]['4']),str(ranks[totalScore])))
     dataFile2.close()
     # 将文件转成ansi格式，避免excel出现乱码
     with codecs.open(filePath2,'r','utf-8') as f:
@@ -378,10 +396,11 @@ def getWeekDatas(st,et,cnt=150):
 
 
 # fe:12939|Philip：12881|12569：zzf|atubo:12906|天外:12883|yyk:12792|西湖:12900|lsj:12824|老庄:12621|灯:12905|13089:水
-getData(12906)  # '2017/6/19 00:00:00','2017/6/26 00:00:00'
+# getData(12906)  # '2017/6/19 00:00:00','2017/6/26 00:00:00'
+
 #  getMultiDatas()
 
-# getWeekDatas('2017/6/19 00:00:00','2017/6/26 00:00:00',30)      # 最后一个参数为取多少条记录，一般按天*20即可
+getWeekDatas('2017/6/19 00:00:00','2017/6/26 00:00:00',30)      # 最后一个参数为取多少条记录，一般按天*20即可
 
 
 
